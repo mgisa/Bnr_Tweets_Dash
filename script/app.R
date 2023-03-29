@@ -85,6 +85,7 @@ header$children[[2]]$children <- tags$div(
 ui <- dashboardPage(header,
   dashboardSidebar(
     sidebarPanel(
+      shinyWidgets::setSliderColor(color = "#753918", sliderId = 1),
       h4(style="color:#753918", sliderInput("Tweets_to_Download",
                                             "Tweets Mining:",
                                             min = 500,
@@ -101,15 +102,28 @@ ui <- dashboardPage(header,
                                                                                         "MAS_sg",#Singapore
                                                                                         "centralbankKY" #USA                                                                                  "BankofZambia"
                                                                                         )))
-      
-      ,width = 0.2
-      
-     ),  #Setting Logo in siderbar
-    tags$div(
-      style="text-align:center; background-color:#fcf7ea",
-      tags$img(src = "BNRLOGO.png", height = '100', width = '100')
-    )
     
+      
+      ,width = 0.15
+      
+     )#,  #Setting Logo in siderbar
+    # tags$div(
+    #   style="text-align:center; background-color:#fcf7ea",
+    #   tags$img(src = "BNRLOGO.png", height = '100', width = '100')
+    # )
+  #   tags$div( 
+  #     HTML('
+  #     <p style="color: #753918; font-size: 12pt; font-weight: bold;">
+  #     This tool was extensively built using Shiny R framework and HTML/CSS. 
+  #     It was designed to be using twitter’ 
+  #     Application Platform Interface(API) to collect tweets and perform live and 
+  #     real time public emotion and sentiment Analysis on the collection. 
+  #     It is reactive and flexible for the other regional central banks upon to the choice of end-user hence get 
+  #     informed on the feelings, emotions and sentiment porality
+  #     (audience positivity and negativity rates) from the banks Twitter audience.</p>
+  #     '
+  # )
+  # )
   ),
   
   #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -127,10 +141,10 @@ ui <- dashboardPage(header,
                                    padding-top:10px; 
                                    padding-bottom:10px;}
          
-         .box.box-solid.box-primary>.box-header {
+         .box.box-solid.box-warning>.box-header {
           color:#753918;font-size: 15px; font-weight: bold; 
   
-          background:#ab892c
+          background:#89724e
          }
          
          .skin-blue .main-sidebar {
@@ -145,15 +159,23 @@ ui <- dashboardPage(header,
          .box.box-solid.box-header {
                 background-color: #ab892c;
          }
-         
-         
-         
          .box.box-solid.box-primary{
           border-bottom-color:#ab892c;
           border-left-color:#ab892c;
           border-right-color:#ab892c;
           border-top-color:#ab892c;
-          }                      
+         } 
+         
+        /* Change the color of the slider input labels */
+        .ui-slider .ui-slider-handle {
+        background-color: #fcf7ea;
+        }
+
+     /* Change the color of the slider input numbers */
+    .ui-slider .ui-slider-handle:before {
+    color: #000;
+    }
+
         .skin-blue .main-header .logo {
           background-color:#ab892c ;               
         }
@@ -210,14 +232,14 @@ ui <- dashboardPage(header,
                  valueBoxOutput("value3")),            
                fluidRow(  
                  box(
-                   title = "WordCloud(Unique Word Appeared in Tweets)"
+                   title = "WordCloud(Tweet words Uniqueness)"
                    ,status = "warning"
                    ,solidHeader = TRUE 
                    ,collapsible = TRUE
                    ,wordcloud2Output("wordcloud", height = "300px")
                  ),
                  box(
-                   title = "Top 10 most appeared words"
+                   title = "Top 10 Tweet words"
                    ,status = "warning"
                    ,solidHeader = TRUE 
                    ,collapsible = TRUE 
@@ -250,7 +272,7 @@ ui <- dashboardPage(header,
                  ))
       ),
       #__________________MPFSS2021 Analysis__________________
-      tabPanel(title = "MPFSS2021",
+      tabPanel(title = "MPFSS2022",
                fluidRow(
                  valueBoxOutput("value13"),
                  valueBoxOutput("value14"),
@@ -273,7 +295,7 @@ ui <- dashboardPage(header,
                    ,plotOutput("MPFSS2021netplot", height = "300px")
                  ),
                  box(
-                   title = "Network Graph Interpretation",
+                   title = "Network Interpretation",
                    status = "warning",
                    width = 12,
                    solidHeader = TRUE,
@@ -307,7 +329,7 @@ ui <- dashboardPage(header,
                    ,plotOutput("MPC2022netplot", height = "300px")
                  ),
                  box(
-                   title = "Network Graph Interpretation",
+                   title = "Graph Interpretation",
                    status = "warning",
                    width = 12,
                    solidHeader = TRUE,
@@ -338,7 +360,7 @@ ui <- dashboardPage(header,
                  valueBoxOutput("value12")),            
                fluidRow(  
                  box(
-                   title = "Tweets Time Evolution"
+                   title = "Periodic Trend"
                    ,status = "warning"
                    ,solidHeader = TRUE 
                    ,collapsible = TRUE
@@ -353,14 +375,14 @@ ui <- dashboardPage(header,
                  )),
                fluidRow(
                  box(
-                   title = "Dominants Used Words Per Year",
+                   title = "Yearly Dominants Words",
                    status = "warning",
                    solidHeader = TRUE,
                    collapsible = TRUE,
                    plotOutput("Dominants", height = "300px")
                  ),
                  box(
-                   title = "Hourly Count of Tweets per Year",
+                   title = "Tweets Hourly Count",
                    status = "warning",
                    solidHeader = TRUE,
                    collapsible = TRUE,
@@ -368,7 +390,7 @@ ui <- dashboardPage(header,
                  )),
                fluidRow(
                  box(
-                   title = "Sentiments Trends",
+                   title = "Time Sentiments ",
                    status = "warning",
                    width = 12,
                    solidHeader = TRUE,
@@ -409,7 +431,42 @@ ui <- dashboardPage(header,
         )
     )
     )
-    )))
+    ),
+    
+    # Footer with a footnote
+    
+    tags$footer(
+      #setting footnote text
+      style = "font-style: italic; text-align: center; background-color:#ab892c; 
+            color:#753918;font-size: 14px; font-weight: bold;",
+      "BNR Copyright © 2023. All rights reserved",
+      #setting logo
+      tags$div(
+        class = "container-fluid",
+        tags$div(
+          class = "row",
+          tags$div(
+            class = "col-md-12",
+            tags$div(
+              class = "text-center",
+              tags$a(href = "https://www.facebook.com/CentralBankRw/", target = "_blank",
+                     tags$i(class = "fa fa-facebook-official fa-lg", style = "color: #753918")),
+              tags$a(href = "https://twitter.com/CentralBankRw/", target = "_blank",
+                     tags$i(class = "fa fa-twitter fa-lg", style = "color: #753918")),
+              tags$a(href = "https://www.linkedin.com/company/national-bank-of-rwanda-bnr-/mycompany/", target = "_blank",
+                     tags$i(class = "fa fa-linkedin fa-lg", style = "color: #753918")),
+              tags$a(href = "https://www.youtube.com/channel/UCNL-AuMdkEhr_FnfeT0BKRQ", target = "_blank",
+                     tags$i(class = "fa fa-youtube fa-lg", style = "color: #753918")),
+              tags$a(href = "https://www.flickr.com/photos/135529030@N06/", target = "_blank",
+                     tags$i(class = "fa-brands fa-flickr", style = "color: #753918"))
+            )
+          )
+        )
+      )
+    )#Closing footer
+    
+    )#closing body
+  )
 # Wrap your UI with secure_app
 ui <- secure_app(ui)
 
@@ -1038,7 +1095,7 @@ output$carstable <- DT::renderDataTable(
 output$App_Intention<-renderUI({
   tags$div( 
     HTML('
-      <p style="color:black; font-size: 11pt">
+      <p style="color:black; font-size: 12pt">
       This tool was extensively built using Shiny R framework and HTML/CSS. 
       It was designed to be using twitter’ 
       Application Platform Interface(API) to collect tweets and perform live and 
@@ -1047,7 +1104,7 @@ output$App_Intention<-renderUI({
       informed on the feelings, emotions and sentiment porality
       (audience positivity and negativity rates) from the banks Twitter audience.</p>
       
-      <p style="color:black; font-size: 11pt">
+      <p style="color:black; font-size: 12pt">
       
       This work would not be possible without using a state-of-art Artificial Intelligence (AI) specifically
       Natural Language Processing (NLP). We constructed a set of sentiment and emotion indicators through the integration 
@@ -1056,21 +1113,19 @@ output$App_Intention<-renderUI({
       central banks are extensively identified and quantified. From this, it is easier than before to monitor and control the
       policy communication on Twitter.
       
-      <h2 style="color:#99632f; font-family:courier;text-align:center;"> 
-      Application Development </h2>
+      <h3 style="color:#753918; font-family:courier;text-align:center; font-weight: bold;"> 
+      Application Development </h3>
       
-      <p style="color:black; font-size:11pt">
-      
-     <p><img src="GISA_Photo.jpg" alt="" height="120" width="95"/></p>
+      <p style="color:black; font-size:12pt">
      
     
-      This app was developed solely by Murera Gisa, a Data Scientist at National Bank of Rwanda,BNR.
-      He enjoys to work on several data-driven researches and projects to reveal the insightful information hidden from
-      diverse datasets. Gisa is passionate in Artificial Intelligence, Machine Learning, and big data technologies and practices.
-      He envisions to make a relevant change to community through data-driven and evidence-based researches.
+      This app was developed solely by Data Science Division in the Statistics Department at National Bank of Rwanda,BNR.
+      The team members enjoy to work on several data-driven researches and projects to reveal the insightful information hidden from
+      diverse datasets. it is passionate in Data Engineering, Artificial Intelligence, Machine Learning, and big data technologies and practices.
+      Its vision is to make a relevant change to community through data-driven and evidence-based researches.
       
-       <h5 style="color:#99632f; font-family:courier;text-align:center;"> 
-      Contact: elgisamur@gmail.com| Tel:+250788266517 </h5>
+       <h5 style="color:#753918; font-family:courier;text-align:center; font-weight: bold;"> 
+       Contact: bnrdatascience@gmail.com </h5>
       
       
       
@@ -1087,7 +1142,7 @@ output$App_Components<-renderUI({
       
          <ul style="list-style-type:disc;">
      
-  <li> <h4 style="color:#99632f;"> App Slider and Input Twitter Username</h4> </li> 
+  <li> <h4 style="color:#753918;"> App Slider and Input Twitter Username</h4> </li> 
   
   This serves to control how many tweets should be returned. The default amount is 500 and the highest is 18,000. 
   It is noteworthy that the higher the tweets, the longer it may take for the app to load. It primarily requires 
@@ -1096,7 +1151,7 @@ output$App_Components<-renderUI({
   BNR (CentralBankRw) and you can even select other username of your choice.
   
   
-  <li><h4 style="color:#99632f;"> App Tabs </h4> </li>
+  <li><h4 style="color:#753918;font-weight: bold;"> App Tabs </h4> </li>
   
   On the default tab, you have Result of the Sentiment Analysis.This includes;
   interactive worldcloud, emotions, Top 10 words occuring in the retrieved tweets,
@@ -1125,7 +1180,7 @@ output$App_Components<-renderUI({
 output$About_Author<-renderUI({
   tags$div( 
     HTML('
-    <h2 style="color:#99632f; font-family:courier;text-align:center;"> 
+    <h2 style="color:#753918; font-family:courier;text-align:center;font-weight: bold;"> 
       ACKNOWLEDGEMENT </h2>
       <p style="color:black; font-size: 12pt">
       
